@@ -54,17 +54,12 @@ variedad = perfil['vino']
 vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), variedad))]
 vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
 
+# --- VINOS COMPATIBLES ---
+st.subheader("🍇 Vinos compatibles")
+variedad = perfil['vino']
+vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), variedad))]
+vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
+
 for _, row in vinoselec.iterrows():
-st.markdown(f"**{row['title']}** ({row['country']}) — {row['points']} pts")
-st.caption(row['description'])
-
-# --- VISUALIZACIÓN COMPARATIVA ---
-st.subheader("📊 Promedio musical por tipo MBTI")
-if "mbti" in df_music.columns:
-    media = df_music.groupby("mbti")[["valence_%", "energy_%", "danceability_%"]].mean().reset_index()
-    fig = px.line(media, x="mbti", y=["valence_%", "energy_%", "danceability_%"], markers=True)
-    st.plotly_chart(fig, use_container_width=True)
-
-# --- NOTA FINAL EDUCATIVA ---
-st.markdown("---")
-st.info("Las descripciones pueden estar en inglés para mantener el contexto original y fomentar la comprensión cultural y lingüística. Puedes usar esta app también para reforzar tu comprensión de términos musicales y enológicos en su idioma original. ✨")
+    st.markdown(f"**{row['title']}** ({row['country']}) — {row['points']} pts")
+    st.caption(row['description'])
