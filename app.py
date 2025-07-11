@@ -27,21 +27,21 @@ mbti_perfiles = {
 }
 
 # --- CARGA DE DATOS ---
-df_music = pd.read_csv("spotify-2023.csv")
-df_wine = pd.read_csv("wine_reviews_es.csv")
+df_music = pd.read_csv("spotify-2023.csv", encoding="latin1")
+df_wine = pd.read_csv("wine_reviews_es.csv", encoding="latin1")
 df_wine.columns = df_wine.columns.str.strip()
 
-# --- CONFIGURACIÓN ---
+# --- CONFIGURACIÓN DE LA APP ---
 st.set_page_config("MBTI x Música x Vino", layout="wide")
 st.title("🎧 Tu personalidad en música y vino 🍷")
 
-# --- SELECCIÓN DE TIPO MBTI ---
+# --- SELECCIÓN MBTI ---
 tipo = st.selectbox("Selecciona tu tipo de personalidad MBTI:", list(mbti_perfiles.keys()))
 perfil = mbti_perfiles[tipo]
 st.markdown(f"## {tipo} — {perfil['descripcion']} {perfil['color']}")
 st.markdown(f"🍷 Vino ideal: **{perfil['vino']}**")
 
-# --- RECOMENDACIONES MUSICALES ---
+# --- CANCIONES RECOMENDADAS ---
 st.subheader("🎵 Tus canciones ideales")
 canciones_filtradas = df_music[(df_music['valence_%'] >= 50) & (df_music['energy_%'] >= 50)]
 recomendadas = canciones_filtradas.sample(5)
@@ -58,13 +58,13 @@ for _, row in vinoselec.iterrows():
     st.markdown(f"**{row['title_es']}** ({row['country_es']}) — {row['points']} pts")
     st.caption(row['description_es'])
 
-# --- GRAFICO COMPARATIVO DE MÚSICA ---
+# --- VISUALIZACIÓN COMPARATIVA ---
 st.subheader("📊 Promedio musical por tipo MBTI")
 if "mbti" in df_music.columns:
     media = df_music.groupby("mbti")[["valence_%", "energy_%", "danceability_%"]].mean().reset_index()
     fig = px.line(media, x="mbti", y=["valence_%", "energy_%", "danceability_%"], markers=True)
     st.plotly_chart(fig, use_container_width=True)
 
-# --- NOTA FINAL ---
+# --- NOTA FINAL EDUCATIVA ---
 st.markdown("---")
-st.info("Las descripciones pueden estar en inglés para mantener el contexto original y fomentar la comprensión cultural y lingüística. Puedes usar esta app también para reforzar tu comprensión de términos musicales y enológicos en su idioma original. ✨")
+st.info(\"Las descripciones pueden estar en inglés para mantener el contexto original y fomentar la comprensión cultural y lingüística. Puedes usar esta app también para reforzar tu comprensión de términos musicales y enológicos en su idioma original. ✨\")
