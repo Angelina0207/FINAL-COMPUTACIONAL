@@ -28,7 +28,7 @@ mbti_perfiles = {
 
 # --- CARGA DE DATOS ---
 df_music = pd.read_csv("spotify-2023.csv", encoding="latin1")
-df_wine = pd.read_csv("wine_reviews_es.csv", encoding="latin1")
+df_wine = pd.read_csv("winemag.data_first150k.csv", encoding="latin1")
 df_wine.columns = df_wine.columns.str.strip()
 
 # --- CONFIGURACIÓN DE LA APP ---
@@ -67,4 +67,4 @@ if "mbti" in df_music.columns:
 
 # --- NOTA FINAL EDUCATIVA ---
 st.markdown("---")
-st.info(\"Las descripciones pueden estar en inglés para mantener el contexto original y fomentar la comprensión cultural y lingüística. Puedes usar esta app también para reforzar tu comprensión de términos musicales y enológicos en su idioma original. ✨\")
+st.info("Las descripciones pueden estar en inglés para mantener el contexto original y fomentar la comprensión cultural y lingüística. Puedes usar esta app también para reforzar tu comprensión de términos musicales y enológicos en su idioma original. ✨")
