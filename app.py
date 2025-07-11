@@ -60,15 +60,17 @@ for _, row in recomendadas.iterrows():
 # --- VINOS COMPATIBLES ---
 st.subheader("🍇 Vinos compatibles")
 variedad = perfil['vino']
-vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), variedad))]
-vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
 
-# --- VINOS COMPATIBLES ---
-st.subheader("🍇 Vinos compatibles")
-variedad = perfil['vino']
+# Filtrar vinos por variedad (comparación sin tildes, mayúsculas, etc.)
 vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), variedad))]
-vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
 
-for _, row in vinoselec.iterrows():
-    st.markdown(f"**{row['title']}** ({row['country']}) — {row['points']} pts")
-    st.caption(row['description'])
+# Mostrar mensaje si no se encuentra la columna "points"
+if "points" not in vinoselec.columns:
+    st.warning("No se encontró la columna 'points' en los datos filtrados.")
+elif vinoselec.empty:
+    st.warning("No se encontraron vinos compatibles con esta variedad. Prueba otro tipo MBTI o revisa tu base de datos.")
+else:
+    vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
+    for _, row in vinoselec.iterrows():
+        st.markdown(f"**{row['title']}** ({row['country']}) — {row['points']} pts")
+        st.caption(row['description'])
