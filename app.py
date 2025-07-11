@@ -28,7 +28,7 @@ mbti_perfiles = {
 
 # --- CARGA DE DATOS ---
 df_music = pd.read_csv("spotify-2023.csv", encoding="latin1")
-df_wine = pd.read_csv("winemag.data_first150k.csv", encoding="latin1")
+df_wine = pd.read_csv("winemag-data_first150k.csv", encoding="latin1")
 df_wine.columns = df_wine.columns.str.strip()
 
 # --- CONFIGURACIÓN DE LA APP ---
