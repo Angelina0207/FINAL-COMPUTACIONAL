@@ -55,8 +55,8 @@ vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), 
 vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
 
 for _, row in vinoselec.iterrows():
-    st.markdown(f"**{row['title_es']}** ({row['country_es']}) — {row['points']} pts")
-    st.caption(row['description_es'])
+st.markdown(f"**{row['title']}** ({row['country']}) — {row['points']} pts")
+st.caption(row['description'])
 
 # --- VISUALIZACIÓN COMPARATIVA ---
 st.subheader("📊 Promedio musical por tipo MBTI")
