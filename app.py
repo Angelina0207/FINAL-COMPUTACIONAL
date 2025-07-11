@@ -28,8 +28,17 @@ mbti_perfiles = {
 
 # --- CARGA DE DATOS ---
 df_music = pd.read_csv("spotify-2023.csv", encoding="latin1")
+import pycountry
+
+def es_pais(nombre):
+    try:
+        return bool(pycountry.countries.lookup(nombre))
+    except LookupError:
+        return False
+
 df_wine = pd.read_csv("winemag-data_first150k.csv", encoding="latin1", on_bad_lines='skip', low_memory=False)
 df_wine.columns = df_wine.columns.str.strip()
+df_wine = df_wine[df_wine["country"].apply(lambda x: es_pais(str(x)) if pd.notna(x) else False)]
 
 # --- CONFIGURACIÓN DE LA APP ---
 st.set_page_config("MBTI x Música x Vino", layout="wide")
