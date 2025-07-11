@@ -42,6 +42,28 @@ df_wine = df_wine[df_wine["country"].apply(lambda x: es_pais(str(x)) if pd.notna
 
 # --- CONFIGURACIÓN DE LA APP ---
 st.set_page_config("MBTI x Música x Vino", layout="wide")
+
+# --- ESTILO PERSONALIZADO ---
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap');
+    html, body, [class*="css"]  {
+        font-family: 'Fredoka', sans-serif;
+        background-color: #fffaf3;
+        color: #333333;
+    }
+    .stButton>button {
+        background-color: #ffa07a;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #ff7043;
+    }
+    </style>
+""", unsafe_allow_html=True)
 st.title("🎧 Tu personalidad en música y vino 🍷")
 
 # --- SELECCIÓN MBTI ---
