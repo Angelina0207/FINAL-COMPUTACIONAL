@@ -117,3 +117,31 @@ else:
             st.markdown(f"**Origen:** {pais} &nbsp;&nbsp;&nbsp; ⭐ **{puntos} puntos**")
             st.caption(f"📝 *{descripcion}*")
             st.markdown("---")
+
+# --- MAPA MUNDIAL DE VINOS ---
+st.subheader("🌍 Mapa mundial de vinos según puntuación")
+
+# Convertir columna 'points' a numérica
+df_wine["points"] = pd.to_numeric(df_wine["points"], errors="coerce")
+
+# Agrupar por país
+mapa_df = df_wine[df_wine["country"].notna()]
+mapa_df = mapa_df.groupby("country", as_index=False).agg(
+    promedio_puntos=("points", "mean"),
+    cantidad_vinos=("points", "count")
+)
+
+# Crear choropleth
+fig = px.choropleth(
+    mapa_df,
+    locations="country",
+    locationmode="country names",
+    color="promedio_puntos",
+    hover_name="country",
+    hover_data={"promedio_puntos": True, "cantidad_vinos": True},
+    color_continuous_scale="Oranges",
+    title="🌍 Promedio de puntuación de vinos por país"
+)
+
+fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+st.plotly_chart(fig, use_container_width=True)
