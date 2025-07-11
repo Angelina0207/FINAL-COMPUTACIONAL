@@ -58,27 +58,40 @@ for _, row in recomendadas.iterrows():
     st.markdown(f"- **{row['track_name']}** — *{row['artist(s)_name']}*")
 
 # --- VINOS COMPATIBLES ---
-st.subheader("🍇 Vinos compatibles")
-variedad = perfil['vino']
+st.subheader("🍇 Vinos compatibles con tu personalidad")
 
-# Filtrar por variedad normalizando texto
+variedad = perfil["vino"]
+
+# Filtrar vinos por variedad normalizando texto
 vinoselec = df_wine[df_wine['variety'].apply(lambda x: contiene_palabra(str(x), variedad))]
 
-# Verificar errores comunes
+# Validación de resultados
 if vinoselec.empty:
-    st.warning("No se encontraron vinos compatibles con esta variedad. Prueba otro tipo MBTI.")
+    st.warning("🥲 No se encontraron vinos compatibles con esta variedad. Prueba con otro tipo MBTI.")
 else:
-    # Ordenar por puntuación si existe la columna
+    # Ordenar si existe columna points
     if "points" in vinoselec.columns:
         vinoselec = vinoselec.sort_values("points", ascending=False).head(3)
     else:
         vinoselec = vinoselec.head(3)
 
     for _, row in vinoselec.iterrows():
-        titulo = row.get('title') or row.get(' title') or "Nombre no disponible"
+        # Elegir mejor nombre disponible
+        titulo = (
+            row.get('title') or
+            row.get(' title') or
+            row.get('designation') or
+            row.get('variety') or
+            row.get('winery') or
+            "Vino sin nombre 🍷"
+        )
+
         pais = row.get('country') or row.get(' country') or "País no disponible"
         puntos = row.get('points', 'N/A')
         descripcion = row.get('description') or "Sin descripción disponible."
 
-        st.markdown(f"**{titulo}** ({pais}) — {puntos} pts")
-        st.caption(descripcion)
+        with st.container():
+            st.markdown(f"### 🍷 {titulo}")
+            st.markdown(f"**Origen:** {pais} &nbsp;&nbsp;&nbsp; ⭐ **{puntos} puntos**")
+            st.caption(f"📝 *{descripcion}*")
+            st.markdown("---")
